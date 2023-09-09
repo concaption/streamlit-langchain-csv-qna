@@ -20,7 +20,7 @@ __import__("pysqlite3")
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
 st.title("CSV Question and answer ChatBot")
-if st.secrets["open_ai_api_key"]:
+if st.secrets.get("open_ai_api_key"):
     os.environ["OPENAI_API_KEY"] = st.secrets["open_ai_api_key"]
     st.success("API Key is set!")
 open_ai_api_key = st.text_input("Enter your OpenAI API Key", key="open_ai_api_key")
