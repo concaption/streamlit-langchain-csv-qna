@@ -19,11 +19,20 @@ __import__("pysqlite3")
 
 sys.modules["sqlite3"] = sys.modules.pop("pysqlite3")
 
-os.environ["OPENAI_API_KEY"] = st.secrets["open_ai_api_key"]
-
 st.title("CSV Question and answer ChatBot")
-
+if st.secrets["open_ai_api_key"]:
+    os.environ["OPENAI_API_KEY"] = st.secrets["open_ai_api_key"]
+    st.success("API Key is set!")
+open_ai_api_key = st.text_input("Enter your OpenAI API Key", key="open_ai_api_key")
+if open_ai_api_key:
+    os.environ["OPENAI_API_KEY"] = open_ai_api_key
+    st.success("API Key is set!")
+if not os.environ["OPENAI_API_KEY"]:
+    st.error("Please set your OpenAI API Key!")
 csv_file_uploaded = st.file_uploader(label="Upload your CSV File here")
+if st.button("Clear API Key"):
+    os.environ["OPENAI_API_KEY"] = ""
+    st.success("API Key is cleared!")
 
 
 def save_file_to_folder(uploaded_file):
